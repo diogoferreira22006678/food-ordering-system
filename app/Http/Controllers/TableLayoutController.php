@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TableLayout;
 use App\Events\TableUpdated;
+use App\Events\TableCreated;
+use App\Events\TableDeleted;
 
 class TableLayoutController extends Controller
 {
@@ -24,19 +26,22 @@ class TableLayoutController extends Controller
         $validated = $request->validate([
             'table_name' => 'required|string|max:255',
         ]);
-
+    
         // Set default position if not provided
         $validated['x_position'] = 50;
         $validated['y_position'] = 50;
-
-        TableLayout::create($validated);
-
+    
+        $table = TableLayout::create($validated);
+    
+        broadcast(new TableCreated($table))->toOthers(); // Broadcast event
+    
         return redirect()->route('tables.index')->with('success', 'Table added successfully.');
     }
+    
 
     public function edit(TableLayout $table)
     {
-        return view('tables.edit', compact('table'));
+        return view('tables.create', compact('table'));
     }
 
     public function update(Request $request, TableLayout $table)
@@ -47,17 +52,21 @@ class TableLayoutController extends Controller
     
         $table->update($validated);
     
-        broadcast(new TableUpdated($table))->toOthers(); // Broadcast the update event
+        broadcast(new TableUpdated($table))->toOthers(); // Broadcast event
     
         return redirect()->route('tables.index')->with('success', 'Table updated successfully.');
     }
 
     public function destroy(TableLayout $table)
     {
+        $tableId = $table->table_id;
         $table->delete();
-
+    
+        broadcast(new TableDeleted($tableId))->toOthers(); // Broadcast event
+    
         return redirect()->route('tables.index')->with('success', 'Table removed.');
     }
+    
     
     public function updatePosition(Request $request)
     {
@@ -66,7 +75,10 @@ class TableLayoutController extends Controller
             'x_position' => $request->x_position,
             'y_position' => $request->y_position
         ]);
-
+    
+        broadcast(new TableUpdated($table))->toOthers(); // Broadcast event
+    
         return response()->json(['message' => 'Table position updated successfully']);
     }
+    
 }

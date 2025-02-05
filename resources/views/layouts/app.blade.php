@@ -12,12 +12,18 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <!-- Custom Styles -->
     <style>
         body {
             font-family: 'Poppins', Arial, sans-serif;
             background-color: #f4f7fc;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensures the body takes the full viewport height */
+            margin: 0;
         }
         .navbar {
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -58,50 +64,69 @@
         .table-hover tbody tr:hover {
             background-color: #f9fafb;
         }
+        .main-content {
+            flex: 1; /* Ensures the content pushes the footer to the bottom when the page is short */
+        }
         footer {
             background-color: #343a40;
             color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+            bottom: 0;
+            width: 100%;
         }
         footer p {
             margin: 0;
+        }
+        .dropdown-menu {
+            padding-bottom: 0;
         }
     </style>
 </head>
 <body>
 
     <!-- Navbar -->
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <!-- Logo Links to Dashboard -->
-        <a class="navbar-brand" href="{{ route('dashboard') }}">Food Ordering</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <!-- Logo Links to Dashboard -->
+            <a class="navbar-brand" href="{{ route('dashboard') }}">Food Ordering</a>
 
-        <!-- Navbar Toggler for Mobile View -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <!-- Navbar Toggler for Mobile View -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <!-- Navbar Links -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('tables.index') }}"><i class="fas fa-table"></i> Tables</a>
-                </li>
-            </ul>
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('tables.index') }}"><i class="fas fa-table"></i> Tables</a>
+                    </li>
+                </ul>
 
-            <!-- User Profile Section -->
-            <div class="ms-3 d-flex align-items-center">
-                <span class="text-white me-2">Admin</span>
-                <img src="https://via.placeholder.com/40" class="rounded-circle" alt="Profile">
+                <!-- User Profile Dropdown -->
+                <div class="ms-3 dropdown">
+                    <button class="btn btn-dark dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle text-white fs-3"></i> <span class="text-white ms-2">Admin</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href=""><i class="fas fa-user"></i> Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-</nav>
-
+    </nav>
 
     <!-- Main Content -->
-    <div class="container mt-4">
+    <div class="main-content container mt-4">
         @yield('content')
     </div>
 

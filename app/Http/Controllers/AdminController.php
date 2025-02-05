@@ -3,16 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Table;
+use App\Models\TableLayout;
 use App\Models\Order;
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
-        $tables = Table::with(['orders' => function ($query) {
-            $query->where('status', '!=', 'served');
-        }])->get();
+        $tables = TableLayout::all();
 
         return view('admin.dashboard', compact('tables'));
     }

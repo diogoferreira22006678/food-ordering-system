@@ -8,7 +8,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
 use App\Models\TableLayout;
 
-class TableUpdated implements ShouldBroadcastNow
+class TableCreated implements ShouldBroadcastNow
 {
     use InteractsWithSockets, SerializesModels;
 
@@ -21,18 +21,18 @@ class TableUpdated implements ShouldBroadcastNow
 
     public function broadcastOn()
     {
-        return new Channel('tables'); // Make sure your front-end subscribes to this
+        return new Channel('tables');
     }
 
     public function broadcastAs()
     {
-        return 'table.updated'; // The event name used in JS
+        return 'table.created';
     }
 
     public function broadcastWith()
     {
         return [
-            'id' => $this->table->table_id,
+            'table_id' => $this->table->table_id,
             'table_name' => $this->table->table_name,
             'x_position' => $this->table->x_position,
             'y_position' => $this->table->y_position,
