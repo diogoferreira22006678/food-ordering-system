@@ -30,6 +30,15 @@
                        style="font-size: 14px; padding: 12px; border-radius: 8px;" required>
             </div>
 
+            <!-- Table seats Input -->
+            <div class="mb-4">
+                <label for="table_name" class="form-label" style="font-weight: bold; font-size: 16px;">Table seats</label>
+                <input type="number" name="seats" class="form-control shadow-sm" 
+                       value="{{ $table->seats ?? '' }}" 
+                       placeholder="Enter table seats" 
+                       style="font-size: 14px; padding: 12px; border-radius: 8px;" required>
+            </div>
+
             <!-- Submit Button -->
             <button type="submit" class="btn btn-success w-100 shadow-sm" 
                     style="font-size: 16px; padding: 10px 0; border-radius: 8px;">

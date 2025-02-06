@@ -23,8 +23,10 @@ class TableLayoutController extends Controller
 
     public function store(Request $request)
     {
+        //Validate form 
         $validated = $request->validate([
             'table_name' => 'required|string|max:255',
+            'seats' => 'required|integer',
         ]);
     
         // Set default position if not provided
@@ -48,6 +50,7 @@ class TableLayoutController extends Controller
     {
         $validated = $request->validate([
             'table_name' => 'required|string|max:255',
+            'seats' => 'required|integer',
         ]);
     
         $table->update($validated);

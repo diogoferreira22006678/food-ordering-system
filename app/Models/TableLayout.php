@@ -15,5 +15,5 @@ class TableLayout extends Model
     
     protected $table = 'tables_layout'; // Ensure this matches your database table name
 
-    protected $fillable = ['table_name', 'x_position', 'y_position', 'status'];
+    protected $fillable = ['table_name', 'seats', 'x_position', 'y_position', 'status'];
 }
