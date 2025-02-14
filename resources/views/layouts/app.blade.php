@@ -101,7 +101,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('tables.index') }}"><i class="fas fa-table"></i> Tables</a>
+                        <a class="nav-link" href="{{ route('menu.index') }}"><i class="fas fa-table"></i>Menu itens</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('tables.index') }}"><i class="fas fa-hamburguer"></i>Tables</a>
                     </li>
                 </ul>
 

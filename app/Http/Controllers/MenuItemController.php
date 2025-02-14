@@ -27,8 +27,9 @@ class MenuItemController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
-            'category_id' => 'required|exists:categories,id',
+            'category' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'options' => 'string'
         ]);
 
         $imagePath = null;
@@ -40,8 +41,9 @@ class MenuItemController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
-            'category_id' => $request->category_id,
+            'category' => $request->category,
             'image' => $imagePath,
+            'options' => $request->options,
         ]);
 
         return redirect()->route('menu.index')->with('success', 'Menu item added successfully.');
