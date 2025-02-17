@@ -81,6 +81,30 @@
         .dropdown-menu {
             padding-bottom: 0;
         }
+        
+    #successMessage {
+        position: fixed;
+        bottom: 60px;
+        right: 20px;
+        width: auto;
+        z-index: 9999;
+        animation: showThenFadeOut 5s forwards
+    }
+
+    @keyframes showThenFadeOut {
+        0% {
+            opacity: 1; 
+        }
+        90% {
+            opacity: 1; 
+            transform: translateY(0px); 
+        }
+        100% {
+            opacity: 0; 
+            transform: translateY(20px); 
+            transition: all 0.5s ease-out; 
+        }
+    }
     </style>
 </head>
 <body>
@@ -101,10 +125,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('menu.index') }}"><i class="fas fa-table"></i>Menu itens</a>
+                        <a class="nav-link" href="{{ route('menu.index') }}">Menu itens</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('tables.index') }}"><i class="fas fa-hamburguer"></i>Tables</a>
+                        <a class="nav-link" href="{{ route('tables.index') }}">Tables</a>
                     </li>
                 </ul>
 
@@ -132,6 +156,11 @@
     <div class="main-content container mt-4">
         @yield('content')
     </div>
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="successMessage">
+            {{ session('success') }}
+        </div>
+    @endif
 
     <!-- Footer -->
     <footer class="text-center py-3">

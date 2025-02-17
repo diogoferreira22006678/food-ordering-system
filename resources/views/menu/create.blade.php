@@ -62,6 +62,10 @@
             <input type="text" name="name" class="form-control" required>
         </div>
         <div class="form-group">
+            <label>Description</label>
+            <input type="text" name="description" class="form-control">
+        </div>
+        <div class="form-group">
             <label>Price</label>
             <input type="number" name="price" step="0.01" class="form-control" required>
         </div>
@@ -72,10 +76,12 @@
         <div class="form-group">
             <!-- Select Único -->
             <div class="custom-select-container mb-4">
-                <label for="customSingleSelect" class="form-label">Select Único:</label>
-                <input type="text" class="form-control custom-input" name="category" id="customSingleSelect" placeholder="Digite ou selecione">
+                <label for="customSingleSelect" class="form-label">Category:</label>
+                <input type="text" class="form-control custom-input" name="category" id="customSingleSelect" placeholder="Digite ou selecione" required>
                 <div class="custom-options" id="singleSelectOptions">
-                    <!-- <div class="option">Opção 1</div> !-->
+                @foreach($categories as $category)
+                    <div class="option">{{ $category->name }}</div>
+                @endforeach
                 </div>
             </div>
         </div>
@@ -87,7 +93,7 @@
                 <input type="hidden" id="customMultiselect" name="options">
                 
                 <div class="custom-options" id="multiSelectOptions">
-                    <!-- <div class="option">Opção 1</div> !-->
+                    
                 </div>
                 <div class="selected-options" id="selectedOptions"></div>
             </div>

@@ -11,6 +11,7 @@
                 <th>Image</th>
                 <th>Name</th>
                 <th>Category</th>
+                <th>Options</th>
                 <th>Price</th>
                 <th>Actions</th>
             </tr>
@@ -25,9 +26,10 @@
                     </td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->category->name }}</td>
+                    <td>{{ $item->options }}</td>
                     <td>${{ number_format($item->price, 2) }}</td>
                     <td>
-                        <form action="{{ route('menu.destroy', $item->id) }}" method="POST">
+                        <form action="{{ route('menu.destroy', $item) }}" method="POST">
                             @csrf @method('DELETE')
                             <button class="btn btn-danger btn-sm">Delete</button>
                         </form>

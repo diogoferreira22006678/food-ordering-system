@@ -29,7 +29,7 @@ class MenuItemController extends Controller
             'price' => 'required|numeric',
             'category' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'options' => 'string'
+            'options' => 'nullable|string'
         ]);
 
         $imagePath = null;
@@ -37,11 +37,21 @@ class MenuItemController extends Controller
             $imagePath = $request->file('image')->store('menu_images', 'public');
         }
 
+        //If the category dont exist we create it
+        if (!Category::where('name', $request->category)->exists()){
+            Category::create([
+                'name' => $request->category
+            ]);
+        }
+
+        //We query the category so we get the id to establish connection
+        $category = Category::where('name', $request->category)->first();
+
         MenuItem::create([
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
-            'category' => $request->category,
+            'category_id' => $category->id,
             'image' => $imagePath,
             'options' => $request->options,
         ]);
@@ -49,12 +59,12 @@ class MenuItemController extends Controller
         return redirect()->route('menu.index')->with('success', 'Menu item added successfully.');
     }
 
-    public function destroy(MenuItem $menuItem)
+    public function destroy(String $menuItemId)
     {
+        $menuItem = MenuItem::where('id', $menuItemId)->first();
         if ($menuItem->image) {
             Storage::disk('public')->delete($menuItem->image);
         }
-
         $menuItem->delete();
         return back()->with('success', 'Menu item deleted.');
     }
